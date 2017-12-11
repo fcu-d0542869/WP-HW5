@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>HW5</title>
+	<style>
+		body {
+			margin: 0px;
+			padding: 0px;
+		}
+		#map {
+			height: 800px;
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="map"></div>
+
+	<script>
+		var icons = {
+			post: {
+				icon: "post.png"
+			},
+			gas: {
+				icon: "gas.png"
+			},
+		};
+		function addMarkers(map) {
+			var features = [{
+				position: new google.maps.LatLng(24.191096, 120.612231),
+				type: 'post',
+				content: "永安里西屯路三段166之80號"
+			}, {
+				position: new google.maps.LatLng(24.183964, 120.618500),
+				type: 'post',
+				content: "黎明路三段130號"
+			}, {
+				position: new google.maps.LatLng(24.184368, 120.604855),
+				type: 'post',
+				content: "青海路一段83號"
+			}, {
+				position: new google.maps.LatLng(24.179591, 120.601610),
+				type: 'post',
+				content: "福順路318號"
+			}, {
+				position: new google.maps.LatLng(24.170103, 120.606626),
+				type: 'post',
+				content: "河南路2段268號"
+			}, {
+				position: new google.maps.LatLng(24.177168, 120.637603),
+				type: 'post',
+				content: "大隆路60、62號"
+			}, {
+				position: new google.maps.LatLng(24.175890, 120.648961),
+				type: 'post',
+				content: "河南路2段268號"
+			}, {
+				position: new google.maps.LatLng(24.166941, 120.643208),
+				type: 'post',
+				content: "台灣大道四段1727號"
+			}, {
+				position: new google.maps.LatLng(24.165107, 120.654113),
+				type: 'post',
+				content: "台中港路三段160號"
+			}, {
+				position: new google.maps.LatLng(24.157347, 120.652825),
+				type: 'post',
+				content: "工業區六路10號"
+			}, {
+				position: new google.maps.LatLng(24.167342, 120.671113),
+				type: 'post',
+				content: "青海路一段83號"
+			}, {
+				position: new google.maps.LatLng(24.184747, 120.590840), // gas
+				type: 'gas',
+				content: "青海路二段211號"
+			}, {
+				position: new google.maps.LatLng(24.183437, 120.600890),
+				type: 'gas',
+				content: "環中路一段2490號"
+			}, {
+				position: new google.maps.LatLng(24.175578, 120.604240),
+				type: 'gas',
+				content: "台灣大道四段1047號"
+			}, {
+				position: new google.maps.LatLng(24.183873, 120.614410),
+				type: 'gas',
+				content: "中清路三段1號"
+			}, {
+				position: new google.maps.LatLng(24.167501, 120.618597),
+				type: 'gas',
+				content: "台灣大道五段142號"
+			}, {
+				position: new google.maps.LatLng(24.192688, 120.622994),
+				type: 'gas',
+				content: "西屯路三段90之28號"
+			}, {
+				position: new google.maps.LatLng(24.207093, 120.628976),
+				type: 'gas',
+				content: "台灣大道四段1832號"
+			}, {
+				position: new google.maps.LatLng(24.184831, 120.629814),
+				type: 'gas',
+				content: "西屯路三段77之3號"
+			}, {
+				position: new google.maps.LatLng(24.183521, 120.633762),
+				type: 'gas',
+				content: "文心路三段2號"
+			}, {
+				position: new google.maps.LatLng(24.163437, 120.628378),
+				type: 'gas',
+				content: "文心路三段187號"
+			}, {
+				position: new google.maps.LatLng(24.195698, 120.644059),
+				type: 'gas',
+				content: "福雅路300號"
+			}, {
+				position: new google.maps.LatLng(24.203076, 120.654399),
+				type: 'gas',
+				content: "工業區八路2號"
+			}, {
+				position: new google.maps.LatLng(24.200642, 120.655233),
+				type: 'gas',
+				content: "河南路二段35號"
+			}, {
+				position: new google.maps.LatLng(24.201327, 120.656901),
+				type: 'gas',
+				content: "環中路三段800號"
+			}, {
+				position: new google.maps.LatLng(24.202239, 120.663072),
+				type: 'gas',
+				content: "河南路二段341號"
+			}, {
+				position: new google.maps.LatLng(24.172041, 120.643893),
+				type: 'gas',
+				content: "安和路51-8號"
+			}, {
+				position: new google.maps.LatLng(24.173030, 120.645560),
+				type: 'gas',
+				content: "環中路二段698號	"
+			}, {
+				position: new google.maps.LatLng(24.163520, 120.649730),
+				type: 'gas',
+				content: "環中路二段1286號"
+			}, {
+				position: new google.maps.LatLng(24.175008, 120.659569),
+				type: 'gas',
+				content: "台灣大道二段917號	"
+			}, {
+				position: new google.maps.LatLng(24.172573, 120.659903),
+				type: 'gas',
+				content: "福雅路693號"
+			}];
+			// Create markers.
+			var markers = [], windows = [];
+			for (var i = 0; i < features.length; i++) {
+				feature = features[i];
+				markers.push(new google.maps.Marker({
+					position: feature.position,
+					icon: icons[feature.type].icon,
+					map: map
+				}));
+				markers[i].addListener('click', function() {  
+					map.setZoom(16);  
+					map.setCenter(this.getPosition()); 
+				});
+				addInfoWindow(markers[i], feature.content);
+			}
+		}
+		function addInfoWindow(marker, message) {
+      var infoWindow = new google.maps.InfoWindow({
+          content: message
+      });
+      google.maps.event.addListener(marker, 'mouseover', function () {
+          infoWindow.open(map, marker);
+					setTimeout(function(){ infoWindow.close(); }, 2000);
+      });
+  	}
+		function initMap() {
+			var fcu = {
+				lat: 24.179036,
+				lng: 120.649544
+			};
+			var map = new
+			google.maps.Map(document.getElementById('map'), {
+				zoom: 16,
+				center: fcu
+			});
+			var marker1 = new google.maps.Marker({
+				position: fcu,
+				map: map
+			});
+			addMarkers(map);
+		}
+	</script>
+
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9ntl3orKBSiNq1LewwO19T9C5LhDMqSY&callback=initMap"></script>
+
+</body>
+
+</html>

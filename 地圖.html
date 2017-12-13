@@ -1,77 +1,73 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-	<title>HW5</title>
-	<style>
-		body {
-			margin: 0px;
-			padding: 0px;
+  <head>
+    <style>
+       #map {
+        height: 100%;
+       }
+		html, body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
 		}
-		#map {
-			height: 800px;
-			width: 100%;
-		}
-	</style>
-</head>
-
+    </style>
+  </head>
 <body>
 	<div id="map"></div>
-
+	
 	<script>
+	var map;
+	function initMap() {
+		var fcu={lat: 24.178834, lng: 120.646707};
+		map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 16,
+            center: fcu
+          });
+		var marker = new google.maps.Marker({
+          position: fcu,
+          map: map
+        });
+
 		var icons = {
-			post: {
-				icon: "post.png"
-			},
-			gas: {
-				icon: "gas.png"
-			},
-		};
-		function addMarkers(map) {
-			var features = [{
-				position: new google.maps.LatLng(24.191096, 120.612231),
+			post:{icon:'post.png'},
+			gas:{icon:'gas.png'}
+		}
+		var features = [{
+				position: new google.maps.LatLng(24.175326, 120.649135),
 				type: 'post',
-				content: "永安里西屯路三段166之80號"
+				content:"河南路二段268號"
 			}, {
-				position: new google.maps.LatLng(24.183964, 120.618500),
+				position: new google.maps.LatLng(24.176714, 120.637692),
 				type: 'post',
-				content: "黎明路三段130號"
+				content:"黎明路三段130號"
 			}, {
-				position: new google.maps.LatLng(24.184368, 120.604855),
+				position: new google.maps.LatLng(24.164642, 120.654208),
 				type: 'post',
-				content: "青海路一段83號"
+				content:"青海路一段83號"
 			}, {
-				position: new google.maps.LatLng(24.179591, 120.601610),
+				position: new google.maps.LatLng(24.183432, 120.618619),
 				type: 'post',
-				content: "福順路318號"
+				content:"福順路318號"
 			}, {
-				position: new google.maps.LatLng(24.170103, 120.606626),
+				position: new google.maps.LatLng(24.156548, 120.652868),
 				type: 'post',
-				content: "河南路2段268號"
+				content:"大隆路60、62號"
 			}, {
-				position: new google.maps.LatLng(24.177168, 120.637603),
+				position: new google.maps.LatLng(24.169494, 120.606564),
 				type: 'post',
-				content: "大隆路60、62號"
+				content:"工業區六路10號"
 			}, {
-				position: new google.maps.LatLng(24.175890, 120.648961),
+				position: new google.maps.LatLng(24.190499, 120.612213),
 				type: 'post',
-				content: "河南路2段268號"
+				content:"永安里西屯路三段166之80號"
 			}, {
-				position: new google.maps.LatLng(24.166941, 120.643208),
+				position: new google.maps.LatLng(24.179047, 120.601641),
 				type: 'post',
-				content: "台灣大道四段1727號"
+				content:"台灣大道四段1727號"
 			}, {
-				position: new google.maps.LatLng(24.165107, 120.654113),
+				position: new google.maps.LatLng(24.183977, 120.604834),
 				type: 'post',
-				content: "台中港路三段160號"
-			}, {
-				position: new google.maps.LatLng(24.157347, 120.652825),
-				type: 'post',
-				content: "工業區六路10號"
-			}, {
-				position: new google.maps.LatLng(24.167342, 120.671113),
-				type: 'post',
-				content: "青海路一段83號"
+				content:"臺灣大道4段1650號"
 			}, {
 				position: new google.maps.LatLng(24.184747, 120.590840), // gas
 				type: 'gas',
@@ -152,52 +148,43 @@
 				position: new google.maps.LatLng(24.172573, 120.659903),
 				type: 'gas',
 				content: "福雅路693號"
-			}];
-			// Create markers.
-			var markers = [], windows = [];
-			for (var i = 0; i < features.length; i++) {
-				feature = features[i];
-				markers.push(new google.maps.Marker({
-					position: feature.position,
-					icon: icons[feature.type].icon,
-					map: map
-				}));
-				markers[i].addListener('click', function() {  
-					map.setZoom(16);  
-					map.setCenter(this.getPosition()); 
-				});
-				addInfoWindow(markers[i], feature.content);
 			}
-		}
-		function addInfoWindow(marker, message) {
-      var infoWindow = new google.maps.InfoWindow({
-          content: message
-      });
-      google.maps.event.addListener(marker, 'mouseover', function () {
-          infoWindow.open(map, marker);
-					setTimeout(function(){ infoWindow.close(); }, 2000);
-      });
-  	}
-		function initMap() {
-			var fcu = {
-				lat: 24.179036,
-				lng: 120.649544
-			};
-			var map = new
-			google.maps.Map(document.getElementById('map'), {
-				zoom: 16,
-				center: fcu
-			});
-			var marker1 = new google.maps.Marker({
-				position: fcu,
+		];
+		
+		features.forEach(function(feature) {
+				var marker = new google.maps.Marker({
+				position: feature.position,
+				icon: icons[feature.type].icon,
 				map: map
-			});
-			addMarkers(map);
-		}
+				});
+				
+				var contentString = feature.content
+				var infowindow = new google.maps.InfoWindow({
+					content: contentString
+					});
+				marker.addListener('mouseover', function() {
+				infowindow.open(map, marker);
+				setTimeout(function(){ infowindow.close(); }, 2000);
+					
+				});
+			
+				
+				
+				
+				
+				
+				});
+			
+				
+		
+	}
+
+		
+
+
 	</script>
-
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9ntl3orKBSiNq1LewwO19T9C5LhDMqSY&callback=initMap"></script>
-
-</body>
-
+    <script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9ntl3orKBSiNq1LewwO19T9C5LhDMqSY&callback=initMap">
+    </script>
+  </body>
 </html>
